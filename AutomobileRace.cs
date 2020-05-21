@@ -7,24 +7,44 @@ namespace ExerciseFromUniWithRacing
     {
         static void Main(string[] args)
         {
-            Racer[] racers = new Racer[]
+            List<Racer> racers = new List<Racer>();
+            for (int i = 0; i < 3; i++)
             {
-                new Racer("Gosho", "Peshov", "BMW", 1540,231, "do-100"),
-                new Racer("Tosho", "Toshev", "Mercedes", 1600, 204, "do-200"),
-                new Racer("Petur", "Medov", "Audi", 1400, 178, "do-200")
-            };
+                racers.Add(CreateRacer());
+            }
             Runway[] runways = new Runway[]
             {
                new Runway(500),
                new Runway(1000)
             };
             
-            InitiateRacesBetweenRacersInRunways(racers, runways);
-            SortRacersByPoints(racers);
-            ListRacersNamesAndTheirPoints(racers);
+            InitiateRacesBetweenRacersInRunways(racers.ToArray(), runways);
+            SortRacersByPoints(racers.ToArray());
+            ListRacersNamesAndTheirPoints(racers.ToArray());
 
             Console.ReadLine();
         }
+
+        public static Racer CreateRacer()
+        {
+            Console.WriteLine("Creating new racer");
+            Console.WriteLine();
+            Console.Write("First name: ");
+            string TempFirstName = Console.ReadLine();
+            Console.Write("Last name: ");
+            string TempFamilyName = Console.ReadLine();
+            Console.Write("Automobile brand: ");
+            string TempAutomobileBrandName = Console.ReadLine();
+            Console.Write("Automobile weight: ");
+            int TempAutomobileWeight = int.Parse(Console.ReadLine());
+            Console.Write("Automobile horsepower: ");
+            int TempAutomobileHorsePower = int.Parse(Console.ReadLine());
+            Console.Write("Automobile boost: ");
+            string TempTypeOfBoost = Console.ReadLine();
+            Console.WriteLine();
+            return new Racer(TempFirstName, TempFamilyName, TempAutomobileBrandName, TempAutomobileWeight, TempAutomobileHorsePower, TempTypeOfBoost);
+        }
+
         public static void SortRacersByPoints(Racer[] racers)
         {
             Racer temp = null;
