@@ -7,38 +7,65 @@ namespace ExerciseFromUniWithRacing
     {
         static void Main(string[] args)
         {
-            Runway runwayA = new Runway(500);
-            Runway runwayB = new Runway(1000);
-
             Racer[] racers = new Racer[]
             {
-                new Racer("Gosho", "Peshov", "BMW", 1540, 231, "do-100"),
+                new Racer("Gosho", "Peshov", "BMW", 1540,231, "do-100"),
                 new Racer("Tosho", "Toshev", "Mercedes", 1600, 204, "do-200"),
                 new Racer("Petur", "Medov", "Audi", 1400, 178, "do-200")
             };
-
-
-            for (int i = 0; i < racers.Length; i++)
+            Runway[] runways = new Runway[]
             {
-                for (int k = 0; k < racers.Length; k++)
-                {
-                    if (i != k)
-                    {
-                        if (!racers[i].PreviousEncounters.Contains(racers[k]))
-                        {
-                            runwayA.InitiateRace(racers[i], racers[k]);
-                            runwayB.InitiateRace(racers[i], racers[k]);
-                        }
-                    }
+               new Runway(500),
+               new Runway(1000)
+            };
+            
+            InitiateRacesBetweenRacersInRunways(racers, runways);
+            SortRacersByPoints(racers);
+            ListRacersNamesAndTheirPoints(racers);
 
+            Console.ReadLine();
+        }
+        public static void SortRacersByPoints(Racer[] racers)
+        {
+            Racer temp = null;
+            for (int j = 0; j <= racers.Length - 2; j++)
+            {
+                for (int i = 0; i <= racers.Length - 2; i++)
+                {
+                    if (racers[i].Points < racers[i + 1].Points)
+                    {
+                        temp = racers[i + 1];
+                        racers[i + 1] = racers[i];
+                        racers[i] = temp;
+                    }
                 }
             }
-
+        }
+        public static void ListRacersNamesAndTheirPoints(Racer[] racers)
+        {
             for (int i = 0; i < racers.Length; i++)
             {
                 Console.WriteLine($"{racers[i].Name} {racers[i].Points}");
             }
-            Console.ReadLine();
+        }
+        public static void InitiateRacesBetweenRacersInRunways(Racer[] racers,params Runway[] runways)
+        {
+                for (int i = 0; i < racers.Length; i++)
+                {
+                    for (int k = 0; k < racers.Length; k++)
+                    {
+                        if (i != k)
+                        {
+                            if (!racers[i].PreviousEncounters.Contains(racers[k]))
+                            {
+                                foreach (Runway runway in runways)
+                                {
+                                    runway.InitiateRace(racers[i], racers[k]);
+                                }
+                            }
+                        }
+                    }
+            }
         }
     }
 
